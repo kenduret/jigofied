@@ -18,51 +18,8 @@ get_header(); ?>
 			<div id="content" role="main">
 
 				<?php if ( function_exists('ktheme_slider') ) { ktheme_slider(); } ?>
-				
-				<?php // Set up query for recent products
-    	$query_args = array(
-    		'showposts'		=> 5,
-    		'post_type'		=> 'product',
-    		'post_status'	=> 'publish',
-    		'orderby'		=> 'date',
-    		'order'			=> 'desc',
-    		'meta_query'	=> array(
-    			array(
-    				'key'		=> 'visibility',
-    				'value'		=> array('catalog', 'visible'),
-    				'compare'	=> 'IN',
-    			),
-    		)
-    	);
-		$recent_jigo = new WP_Query($query_args);
-		
-		// If there are products
-		if($recent_jigo->have_posts()) {
-			// Open the list
-			echo '<ul class="products">';
 			
-			// Print out each product
-			while($recent_jigo->have_posts()) : $recent_jigo->the_post();  
-				
-				// Get new jigoshop_product instance
-				$_product = new jigoshop_product(get_the_ID());
-			
-				echo '<li>';
-					// Print the product image & title with a link to the permalink
-					echo '<a href="'.get_permalink().'" title="'.esc_attr(get_the_title()).'">';
-					echo (has_post_thumbnail()) ? the_post_thumbnail('thumbnail') : jigoshop_get_image_placeholder('shop_thumbnail');
-					echo '<span class="js_widget_product_title">' . get_the_title() . '</span>';
-					echo '</a>';
-					
-					// Print the price with html wrappers
-					echo '<span class="js_widget_product_price">' . $_product->get_price_html() . '</span>';
-				echo '</li>';
-			endwhile;
-			
-			echo '</ul>'; // Close the list
-			
-			wp_reset_postdata(); } ?>
-			<div style="clear:both;"></div>
+				<?php if ( function_exists('k_jigo_recent') ) { k_jigo_recent(); } ?>
 
 				<?php if ( have_posts() ) : ?>
 
