@@ -5,55 +5,45 @@
  * @subpackage K-Jigo
  * @since Twenty Eleven 1.0
  */
- 
- /*-----------------------------------------------------------------------------------*/
+
 /* Initialize the Options Framework
-/* http://wptheming.com/options-framework-theme/
-/*-----------------------------------------------------------------------------------*/
+* http://wptheming.com/options-framework-theme/
+*/
 if ( !function_exists( 'optionsframework_init' ) ) {
-
-define('OPTIONS_FRAMEWORK_URL', TEMPLATEPATH . '/admin/');
-define('OPTIONS_FRAMEWORK_DIRECTORY', get_bloginfo('template_directory') . '/admin/');
-
+	define('OPTIONS_FRAMEWORK_URL', TEMPLATEPATH . '/admin/');
+	define('OPTIONS_FRAMEWORK_DIRECTORY', get_bloginfo('template_directory') . '/admin/');
 require_once (OPTIONS_FRAMEWORK_URL . 'options-framework.php');
-
 }
 
 /* 
- * This is an example of how to add custom scripts to the options panel.
+ * Add custom scripts to the options panel.
  * This one shows/hides the an option when a checkbox is clicked.
  */
-add_action('optionsframework_custom_scripts', 'optionsframework_custom_scripts');
 
 if (!function_exists('optionsframework_custom_scripts')) {
-
 function optionsframework_custom_scripts() { ?>
-
-<script type="text/javascript">
-jQuery(document).ready(function() {
-
-	jQuery('#use_logo_image').click(function() {
-		jQuery('#section-header_logo,#section-logo_width,#section-logo_height').fadeToggle(400);
-	});
-	
-	if (jQuery('#use_logo_image:checked').val() !== undefined) {
-		jQuery('#section-header_logo,#section-logo_width,#section-logo_height').show();
-	}
-	
-	jQuery('#show_image_slider').click(function() {
-		jQuery('#section-transition_delay,#section-transition_select,#section-transition_speed,#section-width_squares,#section-height_squares,#section-image_slices,#section-select_categories').fadeToggle(400);
-	});
-	
-	if (jQuery('#show_image_slider:checked').val() !== undefined) {
-		jQuery('#section-transition_delay,#section-transition_select,#section-transition_speed,#section-width_squares,#section-height_squares,#section-image_slices,#section-select_categories').show();
-	}
-	
-});
-</script>
-
-<?php
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('#use_logo_image').click(function() {
+				jQuery('#section-header_logo,#section-logo_width,#section-logo_height').fadeToggle(400);
+			});
+			
+			if (jQuery('#use_logo_image:checked').val() !== undefined) {
+				jQuery('#section-header_logo,#section-logo_width,#section-logo_height').show();
+			}	
+		
+			jQuery('#show_image_slider').click(function() {
+				jQuery('#section-transition_delay,#section-transition_select,#section-transition_speed,#section-width_squares,#section-height_squares,#section-image_slices,#section-select_categories').fadeToggle(400);
+			});	
+		
+			if (jQuery('#show_image_slider:checked').val() !== undefined) {
+				jQuery('#section-transition_delay,#section-transition_select,#section-transition_speed,#section-width_squares,#section-height_squares,#section-image_slices,#section-select_categories').show();
+			}	
+		});
+	</script>
+<?php }
 }
-}
+add_action('optionsframework_custom_scripts', 'optionsframework_custom_scripts');
 
 /**
  * Adds Twenty Eleven layout classes to the array of body classes.
@@ -122,9 +112,7 @@ function jigo_mini_cart() {
 } // endif
 
 // Build the logo
-// Child Theme Override: child_logo();
 if ( !function_exists( 'twentyeleven_logo' ) ) {
-
 function twentyeleven_logo() {
 	// Displays H1 or DIV based on whether we are on the home page or not (SEO)
 	$heading_tag = ( is_home() || is_front_page() ) ? 'h1' : 'div';
@@ -139,7 +127,7 @@ function twentyeleven_logo() {
 	echo apply_filters ( 'child_logo' , $twentyeleven_logo);
 }
 } // endif
-
+// Dumps the css into the header for image replacement of H1 tag
 if ( !function_exists( 'logostyle' ) ) {
 
 function logostyle() {
@@ -170,13 +158,14 @@ if ( ! function_exists( 'twentyeleven_setup' ) ):
  */
 function twentyeleven_setup() {
 
-function kenney_scripts(){
-
+// Add some javascript
+function twentyeleven_scripts(){
 	wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-ui-core');
 	wp_enqueue_script('nivo',get_bloginfo('template_url') . '/inc/slider/nivo.js',array('jquery'));
 }
-add_action('wp_enqueue_scripts', 'kenney_scripts');
+add_action('wp_enqueue_scripts', 'twentyeleven_scripts');
+
 	/* Make Twenty Eleven available for translation.
 	 * Translations can be added to the /languages/ directory.
 	 * If you're building a theme based on Twenty Eleven, use a find and replace
@@ -192,12 +181,8 @@ add_action('wp_enqueue_scripts', 'kenney_scripts');
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
 
-	// Load up our theme options page and related code.
-	//require( get_template_directory() . '/inc/theme-options.php' );
-
-
-	// Grab Twenty Eleven's Ephemera widget.
-	require( get_template_directory() . '/inc/widgets.php' );
+	// Grab Twenty Eleven's Ephemera widget and slider functions
+	require( get_template_directory() . '/inc/widgets.php' ); // Slated for upgrades
 	require( get_template_directory() . '/inc/slider_functions.php' );
 
 	// Add default posts and comments RSS feed links to <head>.
@@ -213,8 +198,9 @@ add_action('wp_enqueue_scripts', 'kenney_scripts');
 	// Add support for a variety of post formats
 	add_theme_support( 'post-formats', array( 'aside', 'link', 'gallery', 'status', 'quote', 'image' ) );
 
-	// This theme uses Featured Images (also known as post thumbnails) for per-post/per-page Custom Header images
+	// This theme uses Featured Images
 	add_theme_support( 'post-thumbnails' );
+	// Generate a slider image on upload
 	add_image_size( 'slider-image', 565, 290, true );
 
 }
@@ -227,9 +213,6 @@ add_filter('get_the_excerpt', 'do_shortcode');
 
 /**
  * Sets the post excerpt length to 40 words.
- *
- * To override this length in a child theme, remove the filter and add your own
- * function tied to the excerpt_length filter hook.
  */
 function twentyeleven_excerpt_length( $length ) {
 	return 40;
@@ -245,9 +228,6 @@ function twentyeleven_continue_reading_link() {
 
 /**
  * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and twentyeleven_continue_reading_link().
- *
- * To override this in a child theme, remove the filter and add your own
- * function tied to the excerpt_more filter hook.
  */
 function twentyeleven_auto_excerpt_more( $more ) {
 	return ' &hellip;' . twentyeleven_continue_reading_link();
@@ -256,9 +236,6 @@ add_filter( 'excerpt_more', 'twentyeleven_auto_excerpt_more' );
 
 /**
  * Adds a pretty "Continue Reading" link to custom post excerpts.
- *
- * To override this link in a child theme, remove the filter and add your own
- * function tied to the get_the_excerpt filter hook.
  */
 function twentyeleven_custom_excerpt_more( $output ) {
 	if ( has_excerpt() && ! is_attachment() ) {
@@ -284,7 +261,7 @@ add_filter( 'wp_page_menu_args', 'twentyeleven_page_menu_args' );
  */
 function twentyeleven_widgets_init() {
 
-	register_widget( 'Twenty_Eleven_Ephemera_Widget' );
+	register_widget( 'Twenty_Eleven_Ephemera_Widget' ); // Slated for removal
 
 	register_sidebar( array(
 		'name' => __( 'Main Sidebar', 'twentyeleven' ),
@@ -304,10 +281,20 @@ function twentyeleven_widgets_init() {
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
+	
+	register_sidebar( array(
+		'name' => __( 'Below Slider', 'twentyeleven' ),
+		'id' => 'sidebar-3',
+		'description' => __( 'Widgets here appear below the image slider on the Home page.', 'twentyeleven' ),
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget' => "</aside>",
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
+	) );
 
 	register_sidebar( array(
 		'name' => __( 'Footer Area One', 'twentyeleven' ),
-		'id' => 'sidebar-3',
+		'id' => 'sidebar-4',
 		'description' => __( 'An optional widget area for your site footer', 'twentyeleven' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => "</aside>",
@@ -327,7 +314,7 @@ function twentyeleven_widgets_init() {
 
 	register_sidebar( array(
 		'name' => __( 'Footer Area Three', 'twentyeleven' ),
-		'id' => 'sidebar-5',
+		'id' => 'sidebar-6',
 		'description' => __( 'An optional widget area for your site footer', 'twentyeleven' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => "</aside>",
@@ -373,13 +360,13 @@ function twentyeleven_url_grabber() {
 function twentyeleven_footer_sidebar_class() {
 	$count = 0;
 
-	if ( is_active_sidebar( 'sidebar-3' ) )
-		$count++;
-
 	if ( is_active_sidebar( 'sidebar-4' ) )
 		$count++;
 
 	if ( is_active_sidebar( 'sidebar-5' ) )
+		$count++;
+
+	if ( is_active_sidebar( 'sidebar-6' ) )
 		$count++;
 
 	$class = '';
@@ -507,7 +494,6 @@ add_filter( 'body_class', 'twentyeleven_body_classes' );
 
 /**
 * If enabled, adds theme Jigoshop functions
-*
 */
 if ( class_exists( 'jigoshop' ) ) {
 	include_once (STYLESHEETPATH . '/inc/jigoshop_functions.php');
