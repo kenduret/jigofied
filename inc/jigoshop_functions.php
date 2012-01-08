@@ -49,7 +49,7 @@ function k_jigo_recent() {
     		'post_type'		=> 'product',
     		'post_status'	=> 'publish',
     		'orderby'		=> 'date',
-    		'order'			=> 'desc',
+    		'order'			=> 'ASC',
     		'meta_query'	=> array(
     			array(
     				'key'		=> 'visibility',
@@ -71,15 +71,15 @@ function k_jigo_recent() {
 				// Get new jigoshop_product instance
 				$_product = new jigoshop_product(get_the_ID());
 			
-				echo '<li>';
+				echo '<li class="product">';
 					// Print the product image & title with a link to the permalink
 					echo '<a href="'.get_permalink().'" title="'.esc_attr(get_the_title()).'">';
 					echo (has_post_thumbnail()) ? the_post_thumbnail('thumbnail') : jigoshop_get_image_placeholder('shop_thumbnail');
-					echo '<span class="js_widget_product_title">' . get_the_title() . '</span>';
+					echo '<span class="k-jigo-recent-title">' . get_the_title() . '</span>';
 					echo '</a>';
 					
 					// Print the price with html wrappers
-					echo '<span class="js_widget_product_price">' . $_product->get_price_html() . '</span>';
+					echo '<span class="k-jigo-recent-price">' . $_product->get_price_html() . '</span>';
 					do_action('jigoshop_after_shop_loop_item', $post, $_product);
 				echo '</li>';
 			endwhile;

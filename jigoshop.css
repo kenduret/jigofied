@@ -304,8 +304,6 @@ span.onsale {
   text-decoration: none;
 }
 .products li a img {
-  width: 150px;
-  height: 150px;
   display: block;
   margin: 0 0 8px;
   border: 1px solid #ddd;

@@ -18,8 +18,10 @@ get_header(); ?>
 			<div id="content" role="main">
 
 				<?php if ( function_exists('ktheme_slider') ) { ktheme_slider(); } ?>
-			
+				
 				<?php if ( function_exists('k_jigo_recent') ) { k_jigo_recent(); } ?>
+			
+				<?php get_sidebar('below-slider');//if ( function_exists('k_jigo_recent') ) { k_jigo_recent(); } ?>
 
 				<?php if ( have_posts() ) : ?>
 
