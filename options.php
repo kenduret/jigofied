@@ -56,6 +56,46 @@ function optionsframework_options() {
 							"desc" => "Jigoshop is installed. Would you like to show a mini cart here instead?",
 							"id" => "show_mini_cart",
 							"type" => "checkbox");
+							
+		$options[] = array( "name" => "Home page shout Box",
+						"desc" => "HTML or text can be inserted into the Shout Box. You might add twitter icons, badges, or a site announcement here.",
+						"id" => "shout_box",
+						"std" => "",
+						"type" => "textarea");
+							
+		$options[] = array( "name" => "Featured Products",
+							"desc" => "Show featured products on the home page.",
+							"id" => "show_featured",
+							"type" => "checkbox");
+		
+		$options[] = array( "name" => "Display in carousel",
+							"desc" => "Display featured products in Jcarousel.",
+							"id" => "show_carousel_featured",
+							"type" => "checkbox");
+		
+		$options[] = array( "name" => "Featured Products Number",
+							"desc" => "Number of featured products to show.",
+							"id" => "show_count_featured",
+							"std" => "10",
+							"class" => "mini",
+							"type" => "text");
+		
+		$options[] = array( "name" => "Recent Products",
+							"desc" => "Show recent products on the home page.",
+							"id" => "show_recent",
+							"type" => "checkbox");
+		
+		$options[] = array( "name" => "Display recent in carousel",
+							"desc" => "Show recent products in Jcarousel.",
+							"id" => "show_carousel_recent",
+							"type" => "checkbox");
+		
+		$options[] = array( "name" => "Recent Products Number",
+							"desc" => "Number of recent products to show.",
+							"id" => "show_count_recent",
+							"std" => "10",
+							"class" => "mini",
+							"type" => "text");
 	}					
 	$options[] = array( "name" => "Logo Style",
 						"desc" => "Display a custom image/logo image in place of title header.",

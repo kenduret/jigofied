@@ -96,20 +96,6 @@ function twentyeleven_footer_extras() {
 }
 add_action( 'wp_footer', 'twentyeleven_footer_extras', 1 );
 
-if (of_get_option('show_mini_cart')) {
-	
-function jigo_mini_cart() {
-	$extras  = "<div class=\"header-mini-cart\">";
-	$extras .= '<a href="'.jigoshop_cart::get_cart_url().'" class="minicart">';
-	$extras .= '<span>';
-	$extras .=  jigoshop_cart::$cart_contents_count.' items';
-	$extras .= '</span>';
-	$extras .=  jigoshop_cart::get_cart_total();
-	$extras .= '</a>';
-	$extras .= "</div>";
-	echo apply_filters ('child_header_extras',$extras);
-}
-} // endif
 
 // Build the logo
 if ( !function_exists( 'twentyeleven_logo' ) ) {
@@ -158,13 +144,44 @@ if ( ! function_exists( 'twentyeleven_setup' ) ):
  */
 function twentyeleven_setup() {
 
+// Add some style
+function twentyeleven_styles(){
+	wp_register_style('k-jigo', get_bloginfo('template_directory') .'/jigoshop.css' . false, '1.0', 'screen' );
+	wp_register_style( 'nivo-slider', get_template_directory_uri() . '/inc/slider/nivo-slider.css' . false, '1.0', 'screen' );
+	if (of_get_option('show_image_slider')) {
+		wp_enqueue_style( 'nivo-slider');
+	}
+	if ( class_exists( 'jigoshop' ) ) {
+		wp_enqueue_style( 'k-jigo');
+	}
+}
+add_action('wp_print_styles', 'twentyeleven_styles');
+
 // Add some javascript
 function twentyeleven_scripts(){
+	wp_register_script('nivo', get_template_directory_uri() . '/inc/slider/nivo.js',array('jquery'));
+	wp_register_script('jcarousel', get_template_directory_uri() . '/js/jcarousel.min.js',array('jquery'));
+	wp_register_script('swipe', get_template_directory_uri() . '/js/jcarousel.swipe.min.js',array('jcarousel'));
 	wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-ui-core');
-	wp_enqueue_script('nivo',get_bloginfo('template_url') . '/inc/slider/nivo.js',array('jquery'));
+	if (of_get_option('show_image_slider')) {
+		wp_enqueue_script('nivo');
+	}
+	if ( of_get_option('show_carousel_featured') || of_get_option('show_carousel_recent')  ) {
+		wp_enqueue_script('jcarousel');
+		wp_enqueue_script('swipe');
+	}
 }
 add_action('wp_enqueue_scripts', 'twentyeleven_scripts');
+
+function slider_image() { // http://www.noeltock.com/web-design/wordpress/custom-post-types-events-pt1/
+$post_image_id = get_post_thumbnail_id(get_the_ID());
+    if ($post_image_id) {
+    $thumbnail = wp_get_attachment_image_src( $post_image_id, 'slider-image', false);
+    if ($thumbnail) (string)$thumbnail = $thumbnail[0];
+    echo $thumbnail;
+}
+}
 
 	/* Make Twenty Eleven available for translation.
 	 * Translations can be added to the /languages/ directory.
@@ -304,7 +321,7 @@ function twentyeleven_widgets_init() {
 
 	register_sidebar( array(
 		'name' => __( 'Footer Area Two', 'twentyeleven' ),
-		'id' => 'sidebar-4',
+		'id' => 'sidebar-5',
 		'description' => __( 'An optional widget area for your site footer', 'twentyeleven' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => "</aside>",
@@ -499,3 +516,4 @@ if ( class_exists( 'jigoshop' ) ) {
 	include_once (STYLESHEETPATH . '/inc/jigoshop_functions.php');
 
 }
+?>

@@ -232,7 +232,9 @@ body {
 	margin: 0 7.6%;
 	position: relative;
 	width: auto;
-}	
+}
+#slider-aside { margin:15px 0; }
+#recent-products-home { clear:both;margin:15px 0;}	
 /* Attachments */
 .image-attachment .entry-content {
 	margin: 0 auto;
@@ -839,6 +841,14 @@ a:hover {
 	padding-right: 205px;
 }
 
+/* =Home Page
+----------------------------------------------- */
+#shout-box { 
+	font-size: 240%; 
+	display: block; 
+	padding: 13px;
+	margin: 15px auto;
+}
 
 /* =Content
 ----------------------------------------------- */

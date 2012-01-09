@@ -19,9 +19,13 @@ get_header(); ?>
 
 				<?php if ( function_exists('ktheme_slider') ) { ktheme_slider(); } ?>
 				
-				<?php if ( function_exists('k_jigo_recent') ) { k_jigo_recent(); } ?>
+				<?php if ( of_get_option('shout_box') ) { echo '<div id="shout-box">' . of_get_option('shout_box') . '</div>'; } ?>
+				
+				<?php if ( function_exists('k_jigo_featured') ) { k_jigo_featured(); } ?><div style="clear:both;"></div>
+				
+				<?php if ( function_exists('k_jigo_recent') ) { k_jigo_recent(); } ?><div style="clear:both;"></div>
 			
-				<?php get_sidebar('below-slider');//if ( function_exists('k_jigo_recent') ) { k_jigo_recent(); } ?>
+				<?php get_sidebar('below-slider');?>
 
 				<?php if ( have_posts() ) : ?>
 
