@@ -1,9 +1,6 @@
 <?php
-/* Stylesheet */
-function add_jigo_styles() {
-    wp_enqueue_style('jigoshop', get_bloginfo('template_directory').'/jigoshop.css' . false, '1.0' );
-}
-add_action('wp_head', 'add_jigo_styles');
+global $wpdb ;
+
 /* Content Wrappers */
 
 function k_jigo_open_jigoshop_content_wrappers()
@@ -39,56 +36,40 @@ if (!function_exists('jigoshop_get_product_thumbnail')) {
 	}
 }
 
-// Home Page reecent products
-function k_jigo_recent() { 
-	echo '<div id="recent-products-home">';
-			echo	'<h2>Recently Added Products</h2>';
-		 // Set up query for recent products
-    	$query_args = array(
-    		'showposts'		=> 5,
-    		'post_type'		=> 'product',
-    		'post_status'	=> 'publish',
-    		'orderby'		=> 'date',
-    		'order'			=> 'ASC',
-    		'meta_query'	=> array(
-    			array(
-    				'key'		=> 'visibility',
-    				'value'		=> array('catalog', 'visible'),
-    				'compare'	=> 'IN',
-    			),
-    		)
-    	);
-		$recent_jigo = new WP_Query($query_args);
-		
-		// If there are products
-		if($recent_jigo->have_posts()) {
-			// Open the list
-			echo '<ul class="products">';
-			
-			// Print out each product
-			while($recent_jigo->have_posts()) : $recent_jigo->the_post();  
-				
-				// Get new jigoshop_product instance
-				$_product = new jigoshop_product(get_the_ID());
-			
-				echo '<li class="product">';
-					// Print the product image & title with a link to the permalink
-					echo '<a href="'.get_permalink().'" title="'.esc_attr(get_the_title()).'">';
-					echo (has_post_thumbnail()) ? the_post_thumbnail('thumbnail') : jigoshop_get_image_placeholder('shop_thumbnail');
-					echo '<span class="k-jigo-recent-title">' . get_the_title() . '</span>';
-					echo '</a>';
-					
-					// Print the price with html wrappers
-					echo '<span class="k-jigo-recent-price">' . $_product->get_price_html() . '</span>';
-					do_action('jigoshop_after_shop_loop_item', $post, $_product);
-				echo '</li>';
-			endwhile;
-			
-			echo '</ul>'; // Close the list
-			
-			wp_reset_postdata(); } 
-			
-			echo '</div><!-- recent products home --><div style="clear:both;"></div>';
+//Mini cart in header
+if (of_get_option('show_mini_cart')) {
+	
+function jigo_mini_cart() {
+	$extras  = "<div class=\"header-mini-cart\">";
+	$extras .= '<a href="'.jigoshop_cart::get_cart_url().'" class="minicart">';
+	$extras .= '<span>';
+	$extras .=  jigoshop_cart::$cart_contents_count.' items';
+	$extras .= '</span>';
+	$extras .=  jigoshop_cart::get_cart_total();
+	$extras .= '</a>';
+	$extras .= "</div>";
+	echo apply_filters ('child_header_extras',$extras);
+}
+} // endif
+
+// Home Page featured products [featured_products per_page="12" columns="4"]
+if (of_get_option('show_featured')) {
+	function k_jigo_featured() {
+		echo '<h3 class="widget-title">Featured Products</h3>';
+	if ( of_get_option('show_carousel_featured')) { echo '<div id="k-jigo-carousel-featured" class="k-jigo-carousel jcarousel">'; }
+		echo do_shortcode('[featured_products per_page="' . of_get_option('show_count_featured') . '" columns="5"]');
+	if ( of_get_option('show_carousel_featured')) { echo '</div>'; }
+	}
+}
+
+// Home Page recent products [recent_products per_page="12" columns="4"]
+if (of_get_option('show_recent')) {
+	function k_jigo_recent() {
+		echo '<h3 class="widget-title">Recent Products</h3>';
+	if ( of_get_option('show_carousel_recent')) { echo '<div id="k-jigo-carousel-recent" class="k-jigo-carousel jcarousel">'; }
+		echo do_shortcode('[recent_products per_page="' . of_get_option('show_count_recent') . '" columns="5"]');
+	if ( of_get_option('show_carousel_recent')) { echo '</div>'; }
+	}
 }
 
 if (!function_exists('jigoshop_get_sidebar')) {
