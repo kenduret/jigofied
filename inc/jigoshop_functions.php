@@ -55,18 +55,47 @@ function jigo_mini_cart() {
 // Home Page featured products [featured_products per_page="12" columns="4"]
 if (of_get_option('show_featured')) {
 	function k_jigo_featured() {
-		echo '<h3 class="widget-title">Featured Products</h3>';
-	if ( of_get_option('show_carousel_featured')) { echo '<div id="k-jigo-carousel-featured" class="k-jigo-carousel jcarousel">'; }
-		echo do_shortcode('[featured_products per_page="' . of_get_option('show_count_featured') . '" columns="5"]');
-	if ( of_get_option('show_carousel_featured')) { echo '</div>'; }
+	
+	// Create query vars
+	$args = array(
+		'post_type'	=> 'product',
+		'post_status' => 'publish',
+		'ignore_sticky_posts' => 1,
+		'posts_per_page' => of_get_option('show_count_featured'),
+		'meta_query' => array(
+			array(
+				'key' => 'visibility',
+				'value' => array( 'catalog', 'visible' ),
+				'compare' => 'IN'
+			),
+			array(
+				'key' => 'featured',
+				'value' => 'yes'
+			)
+		)
+	);
+	
+	echo '<h3 class="widget-title">Featured Products</h3>';
+	
+	if ( of_get_option('show_carousel_featured')) { echo '<div id="carousel" class="featured">'; }
+
+	query_posts( $args );
+
+	jigoshop_get_template_part( 'loop', 'shop' );
+	
+	wp_reset_query();
+
+	if ( of_get_option('show_carousel_featured')) { echo '</div><div style="clear:both;">'; }
+		
 	}
 }
+
 
 // Home Page recent products [recent_products per_page="12" columns="4"]
 if (of_get_option('show_recent')) {
 	function k_jigo_recent() {
 		echo '<h3 class="widget-title">Recent Products</h3>';
-	if ( of_get_option('show_carousel_recent')) { echo '<div id="k-jigo-carousel-recent" class="k-jigo-carousel jcarousel">'; }
+	if ( of_get_option('show_carousel_recent')) { echo '<div id="carousel" class="recent">'; }
 		echo do_shortcode('[recent_products per_page="' . of_get_option('show_count_recent') . '" columns="5"]');
 	if ( of_get_option('show_carousel_recent')) { echo '</div>'; }
 	}

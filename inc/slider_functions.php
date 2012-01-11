@@ -57,42 +57,39 @@ function slider_options() { ?>
 add_action( 'wp_footer', 'slider_options' );
 } // end Nivo Slider
 
-if ( of_get_option('show_carousel_featured') || of_get_option('show_carousel_recent') ) {
+if ( of_get_option('show_carousel_featured') || of_get_option('show_carousel_recent') ) { //http://caroufredsel.frebsite.nl/
 	function carousel_options() {
 		echo '
 			<script type="text/javascript">
 				jQuery(document).ready(function() {
-					jQuery(".k-jigo-carousel").jcarousel({
-					// Configuration goes here
-					});
+				
+				jQuery("#carousel ul.products").carouFredSel({
+					circular: true,
+					infinite: true,
+					auto 	: true,
+					items	: {
+						visible: 2,
+						width : 150,
+						height : 185
+						},
+					scroll	: {
+						items	: 2
+					},
+					prev	: {	
+						button	: "#foo2_prev",
+						key		: "left"
+					},
+					next	: { 
+						button	: "#foo2_next",
+						key		: "right"
+					},
+					pagination	: "#foo2_pag"
+				});
+
 				});
 			</script>
 		' ;
 	}
 add_action( 'wp_footer', 'carousel_options' );
-function carousel_scripts() {
-	echo '<style type="text/css">
-.jcarousel {
-    position: relative;
-    overflow: hidden;
-}
-
-.jcarousel ul {
-    width: 20000em;
-    position: absolute;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.jcarousel li {
-    float: left;
-}
-
-.jcarousel[dir=rtl] li {
-    float: right;
-} </style>';
-}
-add_action('wp_head', 'carousel_scripts');
 }
 ?>

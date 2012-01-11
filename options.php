@@ -50,19 +50,19 @@ function optionsframework_options() {
 	$options[] = array( "name" => "Style Options",
 						"desc" => "The following options allow you to apply basic customizations to your theme colors. In some cases however, you will need to edit CSS. <br /> This can be done from <a href=\"theme-editor.php\">stylesheet editor</a> or by navigating to Appearance &rarr; Editor.",
 						"type" => "info");
+	
+	$options[] = array( "name" => "Home page shout Box",
+						"desc" => "HTML or text can be inserted into the Shout Box. You might add twitter icons, badges, or a site announcement here.",
+						"id" => "shout_box",
+						"std" => "",
+						"type" => "textarea");
 						
 	if ( class_exists( 'jigoshop' ) ) {
 		$options[] = array( "name" => "Display Cart",
 							"desc" => "Jigoshop is installed. Would you like to show a mini cart here instead?",
 							"id" => "show_mini_cart",
 							"type" => "checkbox");
-							
-		$options[] = array( "name" => "Home page shout Box",
-						"desc" => "HTML or text can be inserted into the Shout Box. You might add twitter icons, badges, or a site announcement here.",
-						"id" => "shout_box",
-						"std" => "",
-						"type" => "textarea");
-							
+								
 		$options[] = array( "name" => "Featured Products",
 							"desc" => "Show featured products on the home page.",
 							"id" => "show_featured",

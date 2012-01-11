@@ -148,8 +148,12 @@ function twentyeleven_setup() {
 function twentyeleven_styles(){
 	wp_register_style('k-jigo', get_bloginfo('template_directory') .'/jigoshop.css' . false, '1.0', 'screen' );
 	wp_register_style( 'nivo-slider', get_template_directory_uri() . '/inc/slider/nivo-slider.css' . false, '1.0', 'screen' );
+	wp_register_style('caroufredsel', get_bloginfo('template_directory') .'/caroufredsel.css' . false, '1.0', 'screen' );
 	if (of_get_option('show_image_slider')) {
 		wp_enqueue_style( 'nivo-slider');
+	}
+	if ( of_get_option('show_carousel_featured') || of_get_option('show_carousel_recent') ) {
+		wp_enqueue_style( 'caroufredsel');
 	}
 	if ( class_exists( 'jigoshop' ) ) {
 		wp_enqueue_style( 'k-jigo');
@@ -160,16 +164,15 @@ add_action('wp_print_styles', 'twentyeleven_styles');
 // Add some javascript
 function twentyeleven_scripts(){
 	wp_register_script('nivo', get_template_directory_uri() . '/inc/slider/nivo.js',array('jquery'));
-	wp_register_script('jcarousel', get_template_directory_uri() . '/js/jcarousel.min.js',array('jquery'));
-	wp_register_script('swipe', get_template_directory_uri() . '/js/jcarousel.swipe.min.js',array('jcarousel'));
+	wp_register_script('caroufredsel', get_template_directory_uri() . '/js/caroufredsel.js',array('jquery'));
 	wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-ui-core');
 	if (of_get_option('show_image_slider')) {
 		wp_enqueue_script('nivo');
 	}
 	if ( of_get_option('show_carousel_featured') || of_get_option('show_carousel_recent')  ) {
-		wp_enqueue_script('jcarousel');
-		wp_enqueue_script('swipe');
+		wp_enqueue_script('caroufredsel');
+		
 	}
 }
 add_action('wp_enqueue_scripts', 'twentyeleven_scripts');
