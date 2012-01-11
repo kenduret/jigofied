@@ -1,0 +1,65 @@
+#carousel.products ul, #carousel ul.products  {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  float: left;
+}
+#carousel ul.products {
+  clear: none;
+}
+#carousel ul.products li {
+  float: left;
+  margin: 0 10px 20px 0;
+  padding: 0;
+  position: relative;
+  width: 150px;
+  height:200px;
+}
+#carousel ul.products li .onsale {
+  top: 0;
+  right: 0;
+  left: auto;
+  margin: -6px -6px 0 0;
+}
+#carousel ul.products li a {
+  text-decoration: none;
+}
+#carousel ul.products li a img {
+  display: block;
+  margin: 0 0 8px;
+  border: 1px solid #ddd;
+}
+#carousel ul.products li a:hover img {
+  border: 1px solid #bbb;
+}
+#carousel ul.products li strong {
+  color: #555;
+  display: block;
+}
+#carousel ul.products li .price {
+  color: green;
+  display: block;
+  font-weight: normal;
+  float: right;
+  text-align: right;
+}
+#carousel ul.products li .price del {
+  font-size: 10px;
+  line-height: 10px;
+  margin: -2px 0 0 0;
+  display: block;
+  color: #ccc;
+}
+#carousel ul.products li .price .from {
+  font-size: 10px;
+  line-height: 10px;
+  margin: -2px 0 0 0;
+  display: block;
+  color: #ccc;
+}
+#carousel ul.products li.first {
+  clear: none;
+}
+#carousel ul.products li.last {
+  margin: 0 10px 20px 0;
+}
